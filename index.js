@@ -31,13 +31,28 @@ async function run() {
       const result = await dataCollection.find().toArray();
       res.send(result);
     });
-
-    app.get("data/:id", async (req, res) => {
+    // admission form
+    app.get("/data/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await productCollection.findOne(query);
+
+      const options = {
+        projection: { _id: 0, collegeName: 1, collegeImage: 1 },
+      };
+      const result = await dataCollection.findOne(query, options);
       res.send(result);
     });
+    app.get("/data/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await dataCollection.findOne(query);
+      res.send(result);
+    });
+
+    // admission
+    // app.get('/data', async(req,res) =>{
+    //   const
+    // })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
